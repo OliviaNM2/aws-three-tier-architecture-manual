@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="980" viewBox="0 0 1400 980" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#8a94a3"/>
+    </marker>
+  </defs>
+
+  <rect width="1400" height="980" fill="#12151a"/>
+
+  <!-- Title -->
+  <text x="700" y="38" text-anchor="middle" font-size="24" font-weight="bold" fill="#ffffff">Three Tier Architecture on AWS</text>
+  <text x="700" y="60" text-anchor="middle" font-size="12" fill="#8a94a3">VPC 10.0.0.0/16 — 3 Availability Zones</text>
+
+  <!-- Internet -->
+  <circle cx="700" cy="95" r="18" fill="none" stroke="#8a94a3" stroke-width="2"/>
+  <text x="700" y="99" text-anchor="middle" font-size="10" fill="#ffffff">Users</text>
+  <line x1="700" y1="113" x2="700" y2="140" stroke="#8a94a3" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="720" y="130" font-size="10" fill="#8a94a3">via IGW</text>
+
+  <!-- VPC boundary -->
+  <rect x="40" y="140" width="1320" height="800" rx="8" fill="none" stroke="#4a6fa5" stroke-width="2"/>
+  <text x="58" y="162" font-size="13" fill="#7fa8e0" font-weight="bold">VPC — 10.0.0.0/16</text>
+
+  <!-- === AZ A === -->
+  <g>
+    <rect x="60" y="175" width="410" height="750" rx="6" fill="#1a1f27" stroke="#3a4250"/>
+    <text x="265" y="198" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">Availability Zone A</text>
+
+    <!-- public web -->
+    <rect x="78" y="215" width="374" height="120" rx="5" fill="#20242c" stroke="#5c6570"/>
+    <text x="92" y="233" font-size="11" fill="#dcdfe4">public-web-subnet-a</text>
+    <text x="452" y="233" text-anchor="end" font-size="10" fill="#8a94a3">10.0.0.0/20</text>
+    <rect x="95" y="245" width="340" height="75" rx="4" stroke-dasharray="4,3" fill="none" stroke="#5c6570"/>
+    <text x="265" y="288" text-anchor="middle" font-size="10" fill="#5c6570">(NAT GW if used)</text>
+
+    <!-- private web -->
+    <rect x="78" y="345" width="374" height="120" rx="5" fill="#20242c" stroke="#5c6570"/>
+    <text x="92" y="363" font-size="11" fill="#dcdfe4">private-web-subnet-a</text>
+    <text x="452" y="363" text-anchor="end" font-size="10" fill="#8a94a3">10.0.48.0/20</text>
+    <rect x="130" y="378" width="240" height="70" rx="4" fill="#f0985a"/>
+    <text x="250" y="408" text-anchor="middle" font-size="11" fill="#1a1f27" font-weight="bold">frontend-server</text>
+    <text x="250" y="424" text-anchor="middle" font-size="9" fill="#3a2d1a">(ASG)</text>
+
+    <!-- private app -->
+    <rect x="78" y="475" width="374" height="120" rx="5" fill="#20242c" stroke="#5c6570"/>
+    <text x="92" y="493" font-size="11" fill="#dcdfe4">private-app-subnet-a</text>
+    <text x="452" y="493" text-anchor="end" font-size="10" fill="#8a94a3">10.0.96.0/20</text>
+    <rect x="130" y="508" width="240" height="70" rx="4" fill="#f0985a"/>
+    <text x="250" y="538" text-anchor="middle" font-size="11" fill="#1a1f27" font-weight="bold">backend-server</text>
+    <text x="250" y="554" text-anchor="middle" font-size="9" fill="#3a2d1a">(ASG)</text>
+
+    <!-- private db -->
+    <rect x="78" y="605" width="374" height="120" rx="5" fill="#20242c" stroke="#5c6570"/>
+    <text x="92" y="623" font-size="11" fill="#dcdfe4">private-db-subnet-a</text>
+    <text x="452" y="623" text-anchor="end" font-size="10" fill="#8a94a3">10.0.144.0/20</text>
+    <rect x="130" y="638" width="240" height="70" rx="4" fill="#5b7fd6"/>
+    <text x="250" y="668" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="bold">database (RDS)</text>
+    <text x="250" y="684" text-anchor="middle" font-size="9" fill="#dbe4ff">Single-AZ · Free Tier</text>
+  </g>
+
+  <!-- === AZ B === -->
+  <g>
+    <rect x="495" y="175" width="410" height="750" rx="6" fill="#1a1f27" stroke="#3a4250"/>
+    <text x="700" y="198" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">Availability Zone B</text>
+
+    <!-- public web -->
+    <rect x="513" y="215" width="374" height="120" rx="5" fill="#20242c" stroke="#5c6570"/>
+    <text x="527" y="233" font-size="11" fill="#dcdfe4">public-web-subnet-b</text>
+    <text x="887" y="233" text-anchor="end" font-size="10" fill="#8a94a3">10.0.16.0/20</text>
+    <rect x="600" y="245" width="200" height="75" rx="4" fill="#b249c9" stroke="#e07bff"/>
+    <text x="700" y="278" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="bold">frontend-alb</text>
+    <text x="700" y="294" text-anchor="middle" font-size="9" fill="#f0d9ff">(internet-facing)</text>
+
+    <!-- private web -->
+    <rect x="513" y="345" width="374" height="120" rx="5" fill="#20242c" stroke="#5c6570"/>
+    <text x="527" y="363" font-size="11" fill="#dcdfe4">private-web-subnet-b</text>
+    <text x="887" y="363" text-anchor="end" font-size="10" fill="#8a94a3">10.0.64.0/20</text>
+    <rect x="565" y="378" width="240" height="70" rx="4" fill="#f0985a"/>
+    <text x="685" y="408" text-anchor="middle" font-size="11" fill="#1a1f27" font-weight="bold">frontend-server</text>
+    <text x="685" y="424" text-anchor="middle" font-size="9" fill="#3a2d1a">(ASG)</text>
+
+    <!-- private app -->
+    <rect x="513" y="475" width="374" height="120" rx="5" fill="#20242c" stroke="#5c6570"/>
+    <text x="527" y="493" font-size="11" fill="#dcdfe4">private-app-subnet-b</text>
+    <text x="887" y="493" text-anchor="end" font-size="10" fill="#8a94a3">10.0.112.0/20</text>
+    <rect x="600" y="508" width="200" height="70" rx="4" fill="#b249c9" stroke="#e07bff"/>
+    <text x="700" y="538" text-anchor="middle" font-size="11" fill="#ffffff" font-weight="bold">backend-alb</text>
+    <text x="700" y="554" text-anchor="middle" font-size="9" fill="#f0d9ff">(internal)</text>
+
+    <!-- private db -->
+    <rect x="513" y="605" width="374" height="120" rx="5" fill="#20242c" stroke="#5c6570"/>
+    <text x="527" y="623" font-size="11" fill="#dcdfe4">private-db-subnet-b</text>
+    <text x="887" y="623" text-anchor="end" font-size="10" fill="#8a94a3">10.0.160.0/20</text>
+    <rect x="595" y="638" width="210" height="70" rx="4" fill="none" stroke="#3a4250" stroke-dasharray="4,3"/>
+    <text x="700" y="668" text-anchor="middle" font-size="10" fill="#5c6570">DB subnet group only</text>
+    <text x="700" y="684" text-anchor="middle" font-size="9" fill="#5c6570">(no active RDS — single-AZ)</text>
+  </g>
+
+  <!-- === AZ C === -->
+  <g>
+    <rect x="930" y="175" width="410" height="750" rx="6" fill="#1a1f27" stroke="#3a4250"/>
+    <text x="1135" y="198" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">Availability Zone C</text>
+
+    <rect x="948" y="215" width="374" height="120" rx="5" fill="#20242c" stroke="#5c6570"/>
+    <text x="962" y="233" font-size="11" fill="#dcdfe4">public-web-subnet-c</text>
+    <text x="1322" y="233" text-anchor="end" font-size="10" fill="#8a94a3">10.0.32.0/20</text>
+    <rect x="965" y="245" width="340" height="75" rx="4" stroke-dasharray="4,3" fill="none" stroke="#5c6570"/>
+    <text x="1135" y="288" text-anchor="middle" font-size="10" fill="#5c6570">(NAT GW if used)</text>
+
+    <rect x="948" y="345" width="374" height="120" rx="5" fill="#20242c" stroke="#5c6570"/>
+    <text x="962" y="363" font-size="11" fill="#dcdfe4">private-web-subnet-c</text>
+    <text x="1322" y="363" text-anchor="end" font-size="10" fill="#8a94a3">10.0.80.0/20</text>
+    <rect x="1000" y="378" width="240" height="70" rx="4" fill="#f0985a"/>
+    <text x="1120" y="408" text-anchor="middle" font-size="11" fill="#1a1f27" font-weight="bold">frontend-server</text>
+    <text x="1120" y="424" text-anchor="middle" font-size="9" fill="#3a2d1a">(ASG)</text>
+
+    <rect x="948" y="475" width="374" height="120" rx="5" fill="#20242c" stroke="#5c6570"/>
+    <text x="962" y="493" font-size="11" fill="#dcdfe4">private-app-subnet-c</text>
+    <text x="1322" y="493" text-anchor="end" font-size="10" fill="#8a94a3">10.0.128.0/20</text>
+    <rect x="1000" y="508" width="240" height="70" rx="4" fill="#f0985a"/>
+    <text x="1120" y="538" text-anchor="middle" font-size="11" fill="#1a1f27" font-weight="bold">backend-server</text>
+    <text x="1120" y="554" text-anchor="middle" font-size="9" fill="#3a2d1a">(ASG)</text>
+
+    <rect x="948" y="605" width="374" height="120" rx="5" fill="#20242c" stroke="#5c6570"/>
+    <text x="962" y="623" font-size="11" fill="#dcdfe4">private-db-subnet-c</text>
+    <text x="1322" y="623" text-anchor="end" font-size="10" fill="#8a94a3">10.0.176.0/20</text>
+    <rect x="1005" y="638" width="210" height="70" rx="4" fill="none" stroke="#3a4250" stroke-dasharray="4,3"/>
+    <text x="1110" y="668" text-anchor="middle" font-size="10" fill="#5c6570">DB subnet group only</text>
+    <text x="1110" y="684" text-anchor="middle" font-size="9" fill="#5c6570">(no active RDS — single-AZ)</text>
+  </g>
+
+  <!-- Flow arrows: Internet -> frontend-alb -->
+  <line x1="700" y1="140" x2="700" y2="245" stroke="#8a94a3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- frontend-alb -> frontend-servers (all 3 AZs) -->
+  <line x1="650" y1="320" x2="270" y2="378" stroke="#b249c9" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <line x1="700" y1="320" x2="685" y2="378" stroke="#b249c9" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <line x1="750" y1="320" x2="1120" y2="378" stroke="#b249c9" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+
+  <!-- frontend-servers -> backend-alb -->
+  <line x1="270" y1="448" x2="650" y2="508" stroke="#5c6570" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <line x1="685" y1="448" x2="700" y2="508" stroke="#5c6570" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <line x1="1120" y1="448" x2="750" y2="508" stroke="#5c6570" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+
+  <!-- backend-alb -> backend-servers -->
+  <line x1="650" y1="583" x2="270" y2="508" stroke="#b249c9" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <line x1="700" y1="583" x2="700" y2="578" stroke="#b249c9" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <line x1="750" y1="583" x2="1120" y2="508" stroke="#b249c9" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+
+  <!-- backend-servers -> database -->
+  <line x1="270" y1="578" x2="250" y2="638" stroke="#5c6570" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="700" y1="578" x2="270" y2="670" stroke="#5c6570" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <line x1="1120" y1="578" x2="290" y2="675" stroke="#5c6570" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+
+  <!-- Legend -->
+  <g>
+    <rect x="60" y="945" width="14" height="14" fill="#b249c9"/>
+    <text x="80" y="956" font-size="11" fill="#dcdfe4">Load Balancer (ALB)</text>
+
+    <rect x="240" y="945" width="14" height="14" fill="#f0985a"/>
+    <text x="260" y="956" font-size="11" fill="#dcdfe4">EC2 / Auto Scaling Group</text>
+
+    <rect x="460" y="945" width="14" height="14" fill="#5b7fd6"/>
+    <text x="480" y="956" font-size="11" fill="#dcdfe4">RDS Database (Single-AZ)</text>
+  </g>
+</svg>
