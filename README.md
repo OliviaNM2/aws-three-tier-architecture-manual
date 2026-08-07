@@ -54,19 +54,19 @@ The architecture uses public and private subnets, Application Load Balancers, EC
 Screenshots from the AWS Console showing the deployed resources.
 
 **VPC Resource Map**
-![VPC Resource Map](images/vpc-resource-map.png)
+![VPC Resource Map](vpc-resource-map.png)
 
 **Subnets Overview**
-![Subnets Overview](images/subnets-overview.png)
+![Subnets Overview](subnets-overview.png)
 
 **EC2 Instances (Frontend + Backend, healthy across AZs)**
-![EC2 Instances Check](images/ec2-instances-check.png)
+![EC2 Instances Check](ec2-instances-check.png)
 
 **Auto Scaling Groups**
-![Auto Scaling Group](images/autoscaling group.png)
+![Auto Scaling Group Check](Autoscaling%20group.png)
 
 **Application Load Balancers**
-![ALB Check](images/alb-check.png)
+![ALB Check](alb%20check.png)
 
 
 # AWS Services Used
@@ -284,7 +284,7 @@ Backend target group showed:
 ```
 Health checks failed with codes: [403]
 ```
-![Unhealthy Target Group](images/target-group-unhealthy.png)
+![Unhealthy Target Group](target-group-backend-alb-unhealthy.png)
 
 
 Root Cause:
@@ -296,9 +296,9 @@ Solution:
 * Verified Apache service was running and the backend was reachable locally.
 * Updated the target group's health check "Success codes" to include 403, which resolved the health check failures.
 
-![403 Added to Success Codes](images/target-group-403-fix.png)
+![403 Added to Success Codes](target-group-403-fix.png)
 
-![Target Group Healthy](images/target-group-healthy.png)
+![Target Group Healthy](target-group-backend-alb-healthy.png)
 
 > Note: this was a practical fix for the lab environment. In a production setup, I would investigate *why* the app returns 403 (e.g. file permissions, `.htaccess` rules, or missing index file) rather than just accepting 403 as a healthy response.
 
