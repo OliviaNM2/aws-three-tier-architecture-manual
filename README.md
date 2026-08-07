@@ -49,6 +49,25 @@ The architecture uses public and private subnets, Application Load Balancers, EC
 **VPC:** `10.0.0.0/16` across 3 Availability Zones (A, B, C), with 12 subnets across 4 tiers.
 
 ---
+# Console Evidence
+
+Screenshots from the AWS Console showing the deployed resources.
+
+**VPC Resource Map**
+![VPC Resource Map](images/vpc-resource-map.png)
+
+**Subnets Overview**
+![Subnets Overview](images/subnets-overview.png)
+
+**EC2 Instances (Frontend + Backend, healthy across AZs)**
+![EC2 Instances Check](images/ec2-instances-check.png)
+
+**Auto Scaling Groups**
+![Auto Scaling Group](images/autoscaling group.png)
+
+**Application Load Balancers**
+![ALB Check](images/alb-check.png)
+
 
 # AWS Services Used
 
@@ -265,7 +284,102 @@ Backend target group showed:
 ```
 Health checks failed with codes: [403]
 ```
+![Unhealthy Target Group](images/target-group-unhealthy.png)
 
+
+Root Cause:
+
+The target group's health check "Success codes" setting only accepted HTTP 200, but the backend server was returning 403 for the health check path.
+
+Solution:
+
+* Verified Apache service was running and the backend was reachable locally.
+* Updated the target group's health check "Success codes" to include 403, which resolved the health check failures.
+
+![403 Added to Success Codes](images/target-group-403-fix.png)
+
+![Target Group Healthy](images/target-group-healthy.png)
+
+> Note: this was a practical fix for the lab environment. In a production setup, I would investigate *why* the app returns 403 (e.g. file permissions, `.htaccess` rules, or missing index file) rather than just accepting 403 as a healthy response.
+
+---
+
+## Newly Launched Targets Showing Unhealthy
+
+Problem:
+
+After launching new EC2 instances into the target group, they immediately showed as unhealthy.
+
+Solution:
+
+* Learned that newly registered targets go through an "initial" state and need a few health check cycles (~1-2 minutes) to pass before showing healthy.
+* In parallel, verified security group rules allowed inbound traffic from the ALB's security group on the health check port.
+
+---
+
+## Learning About Launch Template User Data
+
+Problem:
+
+Frontend Nginx configuration contained:
+
+proxy_pass http://update-me;
+
+
+Solution:
+
+Understood that the placeholder was replaced during EC2 launch using user data:
+
+sed -i 's/update-me/backend-alb-url/g' nginx.conf
+
+
+This allowed the frontend layer to communicate with the internal backend ALB.
+
+---
+
+# Skills Demonstrated
+
+Through this project, I practiced:
+
+* AWS networking fundamentals
+* VPC design
+* Subnet architecture
+* Security group configuration
+* Load balancer configuration
+* EC2 deployment
+* Auto Scaling
+* Linux server administration
+* Nginx configuration
+* Apache configuration
+* Troubleshooting AWS infrastructure issues
+
+---
+
+# Cost Notes
+
+* RDS deployed as **Single-AZ** to stay within AWS Free Tier.
+* **Remember to terminate the NAT Gateway, ALBs, ASG instances, and RDS instance** when not actively using this project — NAT Gateway and ALBs incur hourly charges even when idle.
+
+---
+
+# Future Improvements
+
+Planned improvements:
+
+* Rebuild the architecture using Terraform
+* Add CI/CD pipeline
+* Add monitoring with CloudWatch
+* Improve health check endpoints
+* Implement HTTPS using ACM certificates
+* Improve security using IAM best practices
+
+---
+
+# Reference
+
+This project was created using AWS documentation and online learning resources as references. The architecture was implemented, tested, and troubleshot independently.
+
+Just select all the text above, copy it, and paste it over everything in your GitHub editor at that link, then scroll down and click Commit changes.
 Solution:
 
 * Verified Apache service was running and the backend was reachable locally.
